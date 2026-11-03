@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "net.flameslight.prioritizedmusicplayer.mixins",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "prioritizedmusicplayer.refmap.json",
+  "mixins": [],
+  "client": [
+    "ChannelMixin",
+    "SoundEngineMixin",
+    "SoundEngineStopMixin",
+    "SoundEngineAccessor",
+    "SoundManagerAccessor"
+  ],
+  "server": [],
+  "minVersion": "0.8"
+}
