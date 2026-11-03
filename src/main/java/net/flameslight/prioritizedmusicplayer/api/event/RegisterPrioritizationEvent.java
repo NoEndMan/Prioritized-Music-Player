@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Base of the mod bus events where mods register their entries for Prioritized Music Player's client config. Subscribe
- * to {@link ClientRegisterPrioritizationEvent} or {@link ServerRegisterPrioritizationEvent}, never to this class.
+ * to {@link ClientRegisterPrioritizationEvent}, never to this class.
  * <p>
  * Sound names are the name only, without a namespace (for example music_disc.cat). Entries are only ever added to the
  * client config, never removed or overwritten. An entry already in the config is not written again, and is listed as a

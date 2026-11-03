@@ -3,28 +3,18 @@ package net.flameslight.prioritizedmusicplayer.events;
 import net.flameslight.prioritizedmusicplayer.PrioritizedMusicPlayer;
 import net.flameslight.prioritizedmusicplayer.config.ClientConfig;
 import net.flameslight.prioritizedmusicplayer.config.ModdedAddedEntriesHandler;
-import net.flameslight.prioritizedmusicplayer.server.ServerMusicEntries;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.config.ModConfigEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 /**
- * Mod bus events of the client
+ * Mod bus events of the client: refreshes the client config caches and posts ClientRegisterPrioritizationEvent on its
+ * first load.
  */
 @Mod.EventBusSubscriber(modid = PrioritizedMusicPlayer.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEvents {
-    @SubscribeEvent
-    public static void onCommonSetup(FMLCommonSetupEvent event) {
-        /*
-         * keeps the client config caches current and lets other client mods add their
-         * entries once the client config first loads.
-         */
-        event.enqueueWork(ServerMusicEntries::registerServerModsEntries);
-    }
-
     /**
      * called only on client side, refreshes the client config caches on load and reload. On the first load, the earliest point the client config
      * can be written, it also posts ClientRegisterPrioritizationEvent and writes what client mods registered.

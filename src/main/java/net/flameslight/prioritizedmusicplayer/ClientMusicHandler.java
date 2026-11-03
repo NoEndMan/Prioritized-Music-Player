@@ -14,7 +14,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.client.sounds.ChannelAccess;
 import net.minecraft.client.sounds.SoundEngine;
+import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
@@ -293,7 +295,8 @@ public class ClientMusicHandler {
      * Lists every sound playing on the client with its prioritization status, for /pmp nowplaying: the current
      * prioritized playing first, then muted, then weakened, then paused, then unaffected sounds, each group sorted by
      * id. Sounds with the same id and status are merged into one line with a count. A status is where the sound's fade
-     * heads, not its current level, and is shown bold and yellow after the id. Client main thread.
+     * heads, not its current level, and is shown bold and yellow after the id. Each id is underlined, and clicking it
+     * copies it to the clipboard. Client main thread.
      *
      * @return the number of playing sounds and the chat lines, one per id and status, empty when nothing plays
      */
@@ -313,7 +316,18 @@ public class ClientMusicHandler {
 
         // EnumMap iterates in the enum's order: most prioritized, muted, weakened, paused, unaffected
         countsByStatus.forEach((status, counts) -> counts.forEach((id, count) -> {
-            MutableComponent line = Component.literal(count > 1 ? id + " x" + count : id);
+            /*
+                Only the id copies on click. It is a sibling of an empty root, so the count and the status
+                appended after it don't inherit its click and hover.
+             */
+            MutableComponent line = Component.empty().append(Component.literal(id).withStyle(style -> style
+                    .withUnderlined(true)
+                    .withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, id))
+                    .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click to copy")))));
+
+            if (count > 1) {
+                line.append(" x" + count);
+            }
 
             if (!status.getText().isEmpty()) {
                 line.append(" - ").append(Component.literal(status.getText()).withStyle(ChatFormatting.BOLD, ChatFormatting.YELLOW));

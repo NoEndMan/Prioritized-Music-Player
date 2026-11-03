@@ -2,7 +2,6 @@ package net.flameslight.prioritizedmusicplayer.api.routes;
 
 import net.flameslight.prioritizedmusicplayer.ClientMusicHandler;
 import net.flameslight.prioritizedmusicplayer.api.event.ClientRegisterPrioritizationEvent;
-import net.flameslight.prioritizedmusicplayer.api.event.ServerRegisterPrioritizationEvent;
 
 /**
  * API other mods use to control Prioritized Music Player at runtime on the client.
@@ -10,8 +9,7 @@ import net.flameslight.prioritizedmusicplayer.api.event.ServerRegisterPrioritiza
  * Each method routes to whatever the mod does internally, so its own classes can be renamed, moved or rewritten
  * freely. Existing methods are never removed or changed. A new feature adds a new method and raises
  * {@link #API_VERSION}, which callers check through {@link #apiVersion()} before using it. The version covers the
- * whole API: this class, {@link ServerRoutes}, {@link ClientRegisterPrioritizationEvent} and
- * {@link ServerRegisterPrioritizationEvent}.
+ * whole API: this class, {@link ServerRoutes} and {@link ClientRegisterPrioritizationEvent}.
  * The playback methods below are client side only and must be called on the client main thread. Client classes are
  * referenced only inside method bodies, so loading this class elsewhere is safe.
  */

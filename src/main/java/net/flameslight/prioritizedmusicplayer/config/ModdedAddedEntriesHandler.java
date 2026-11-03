@@ -25,8 +25,7 @@ import java.util.Set;
  * "mod list that adds to the configuration.txt" next to it.
  * <p>
  * Client mods register their entries through ClientRegisterPrioritizationEvent, posted once when the client config
- * first loads. Mods on the server register theirs through ServerRegisterPrioritizationEvent, and the server sends them
- * to every player who joins, where {@link #applyServerModEntries(List)} applies them.
+ * first loads.
  * <p>
  * Entries are only ever added: an entry already in the config is not written again and is only
  * listed as a duplicate in the text file, without logging. The block switches and whitelists of the client config
@@ -131,34 +130,6 @@ public final class ModdedAddedEntriesHandler {
         }
         notWhitelisted.forEach(modId ->
                 ModLogger.debug("{} is not in clientModsConfigOverridesWhitelist, its entries are ignored.", modId));
-
-        write(allowed);
-    }
-
-    /**
-     * Writes the entries the server's mods registered through ServerRegisterPrioritizationEvent, as far as
-     * blockServerModsConfigOverrides and serverModsConfigOverridesWhitelist allow. Client main thread, when the
-     * server sends them on login.
-     *
-     * @param entries the validated entries the server sent
-     */
-    public static void applyServerModEntries(List<ModdedEntry> entries) {
-        if (ClientConfig.isBlockServerModsConfigOverrides()) {
-            ModLogger.debug("blockServerModsConfigOverrides is on, {} entries from the server's mods are ignored.", entries.size());
-            return;
-        }
-
-        List<ModdedEntry> allowed = new ArrayList<>();
-        Set<String> notWhitelisted = new LinkedHashSet<>();
-        for (ModdedEntry entry : entries) {
-            if (ClientConfig.isServerModWhitelisted(entry.modId())) {
-                allowed.add(entry);
-            } else {
-                notWhitelisted.add(entry.modId());
-            }
-        }
-        notWhitelisted.forEach(modId ->
-                ModLogger.debug("{} is not in serverModsConfigOverridesWhitelist, its entries are ignored.", modId));
 
         write(allowed);
     }

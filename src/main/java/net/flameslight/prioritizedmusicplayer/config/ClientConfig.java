@@ -49,12 +49,8 @@ public class ClientConfig {
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> PRIORITIZED_MUSIC_LIST;
     /** blockClientModsConfigOverrides option. */
     public static final ForgeConfigSpec.BooleanValue BLOCK_CLIENT_MODS_CONFIG_OVERRIDES;
-    /** blockServerModsConfigOverrides option. */
-    public static final ForgeConfigSpec.BooleanValue BLOCK_SERVER_MODS_CONFIG_OVERRIDES;
     /** clientModsConfigOverridesWhitelist option. */
     public static final ForgeConfigSpec.ConfigValue<List<? extends String>> CLIENT_MODS_CONFIG_OVERRIDES_WHITELIST;
-    /** serverModsConfigOverridesWhitelist option. */
-    public static final ForgeConfigSpec.ConfigValue<List<? extends String>> SERVER_MODS_CONFIG_OVERRIDES_WHITELIST;
     /** debugMod option. */
     public static final ForgeConfigSpec.BooleanValue DEBUG_MOD;
 
@@ -67,9 +63,7 @@ public class ClientConfig {
     /** Conditional sound to the paused sounds of its rules. */
     private static volatile Map<String, Set<String>> conditionalToPausedSounds = Map.of();
     private static volatile boolean blockClientModsConfigOverrides = false;
-    private static volatile boolean blockServerModsConfigOverrides = false;
     private static volatile Set<String> clientModsWhitelist = Set.of();
-    private static volatile Set<String> serverModsWhitelist = Set.of();
 
     private static volatile boolean isDebugMod = DEFAULT_DEBUG_MOD;
     private static volatile boolean isDebugModResolved = false;
@@ -178,18 +172,6 @@ public class ClientConfig {
                         "Example: clientModsConfigOverridesWhitelist = [\"ithasbeenrpgtweaks\"]")
                 .defineList("clientModsConfigOverridesWhitelist", new ArrayList<>(), o -> o instanceof String);
 
-        BLOCK_SERVER_MODS_CONFIG_OVERRIDES = builder
-                .comment("If true, mods registering through ServerRegisterPrioritizationEvent on the server can't add",
-                        "entries to this config or to the mod list text file.",
-                        "Also overrides serverModsConfigOverridesWhitelist: no server mod writes, listed or not.")
-                .define("blockServerModsConfigOverrides", false);
-
-        SERVER_MODS_CONFIG_OVERRIDES_WHITELIST = builder
-                .comment("Mod ids. If not empty, only these mods, registering through ServerRegisterPrioritizationEvent",
-                        "on the server, may add entries to this config. Empty: every such mod may.",
-                        "Example: serverModsConfigOverridesWhitelist = [\"someservermod\"]")
-                .defineList("serverModsConfigOverridesWhitelist", new ArrayList<>(), o -> o instanceof String);
-
         DEBUG_MOD = builder
                 .comment("Enables this mod's own [DEBUG] log lines.")
                 .define("debugMod", DEFAULT_DEBUG_MOD);
@@ -235,9 +217,7 @@ public class ClientConfig {
         conditionalToPausedSounds = toImmutable(conditionalToPaused);
 
         blockClientModsConfigOverrides = BLOCK_CLIENT_MODS_CONFIG_OVERRIDES.get();
-        blockServerModsConfigOverrides = BLOCK_SERVER_MODS_CONFIG_OVERRIDES.get();
         clientModsWhitelist = parseModIds(CLIENT_MODS_CONFIG_OVERRIDES_WHITELIST.get());
-        serverModsWhitelist = parseModIds(SERVER_MODS_CONFIG_OVERRIDES_WHITELIST.get());
 
         isDebugModResolved = false;
     }
@@ -383,15 +363,6 @@ public class ClientConfig {
     }
 
     /**
-     * Reads blockServerModsConfigOverrides.
-     *
-     * @return true if mods registering through ServerRegisterPrioritizationEvent can't add entries
-     */
-    public static boolean isBlockServerModsConfigOverrides() {
-        return blockServerModsConfigOverrides;
-    }
-
-    /**
      * Tells whether clientModsConfigOverridesWhitelist lets a client mod add entries. Doesn't check the block switch.
      *
      * @param modId the mod id
@@ -399,18 +370,6 @@ public class ClientConfig {
      */
     public static boolean isClientModWhitelisted(String modId) {
         Set<String> whitelist = clientModsWhitelist;
-        return whitelist.isEmpty() || whitelist.contains(modId);
-    }
-
-    /**
-     * Tells whether serverModsConfigOverridesWhitelist lets a mod registering through ServerRegisterPrioritizationEvent
-     * add entries. Doesn't check the block switch.
-     *
-     * @param modId the mod id
-     * @return true if the whitelist is empty or lists the mod
-     */
-    public static boolean isServerModWhitelisted(String modId) {
-        Set<String> whitelist = serverModsWhitelist;
         return whitelist.isEmpty() || whitelist.contains(modId);
     }
 
