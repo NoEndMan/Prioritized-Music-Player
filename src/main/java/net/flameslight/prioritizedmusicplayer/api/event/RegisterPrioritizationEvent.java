@@ -1,6 +1,6 @@
 package net.flameslight.prioritizedmusicplayer.api.event;
 
-import net.flameslight.prioritizedmusicplayer.api.routes.CommonRoutes;
+import net.flameslight.prioritizedmusicplayer.api.routes.ClientRoutes;
 import net.flameslight.prioritizedmusicplayer.config.ClientConfig;
 import net.flameslight.prioritizedmusicplayer.config.ModdedAddedEntriesHandler;
 import net.flameslight.prioritizedmusicplayer.config.ModdedAddedEntriesHandler.EntryList;
@@ -20,7 +20,7 @@ import java.util.List;
  * duplicate in "mod list that adds to the configuration.txt". The user may block mods or whitelist some of them in the
  * client config.
  * <p>
- * Part of the API: methods are never removed or changed, a new method raises {@link CommonRoutes#API_VERSION}.
+ * Part of the API: methods are never removed or changed, a new method raises {@link ClientRoutes#API_VERSION}.
  */
 public abstract class RegisterPrioritizationEvent extends Event implements IModBusEvent {
     private final List<ModdedEntry> entries = new ArrayList<>();

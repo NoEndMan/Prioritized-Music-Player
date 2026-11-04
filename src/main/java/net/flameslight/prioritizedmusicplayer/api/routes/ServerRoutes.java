@@ -7,10 +7,10 @@ import net.minecraft.server.level.ServerPlayer;
 
 /**
  * API mods use on the server to control Prioritized Music Player on a player's client. Each method sends a message
- * that runs the matching {@link CommonRoutes} method on that client. A call for a player whose client lacks PMP does
+ * that runs the matching {@link ClientRoutes} method on that client. A call for a player whose client lacks PMP does
  * nothing. Use {@link #isPMPInstalled(ServerPlayer)} to check first.
- * Part of the API: methods are never removed or changed, a new method raises {@link CommonRoutes#API_VERSION}, read
- * through {@link CommonRoutes#apiVersion()}.
+ * Part of the API: methods are never removed or changed, a new method raises {@link ClientRoutes#API_VERSION}, read
+ * through {@link ClientRoutes#apiVersion()}.
  */
 public final class ServerRoutes {
     /**

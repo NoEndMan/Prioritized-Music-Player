@@ -13,7 +13,7 @@ import net.flameslight.prioritizedmusicplayer.api.event.ClientRegisterPrioritiza
  * The playback methods below are client side only and must be called on the client main thread. Client classes are
  * referenced only inside method bodies, so loading this class elsewhere is safe.
  */
-public final class CommonRoutes {
+public final class ClientRoutes {
     /** Raised whenever a method is added. Existing methods never change. Read it through apiVersion(). */
     public static final int API_VERSION = 1;
 

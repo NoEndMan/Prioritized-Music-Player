@@ -1,6 +1,6 @@
 package net.flameslight.prioritizedmusicplayer.network;
 
-import net.flameslight.prioritizedmusicplayer.api.routes.CommonRoutes;
+import net.flameslight.prioritizedmusicplayer.api.routes.ClientRoutes;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -16,7 +16,7 @@ public final class ClientPacketHandlers {
      * @param sound the sound name, without a namespace
      */
     public static void unpauseSound(String sound) {
-        CommonRoutes.unpauseSound(sound);
+        ClientRoutes.unpauseSound(sound);
     }
 
     /**
@@ -26,6 +26,6 @@ public final class ClientPacketHandlers {
      * @param concealed true to hide, false to reveal
      */
     public static void setPrioritizedMusicConcealed(String sound, boolean concealed) {
-        CommonRoutes.setPrioritizedMusicConcealed(sound, concealed);
+        ClientRoutes.setPrioritizedMusicConcealed(sound, concealed);
     }
 }
