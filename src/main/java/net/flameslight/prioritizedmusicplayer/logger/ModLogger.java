@@ -24,7 +24,7 @@ public class ModLogger {
      */
     public static void debug(String message, Object ... args) {
         if(ClientConfig.isDebugMod())
-            LOGGER.debug(buildMessageLog("[DEBUG]: " + message), args);
+            LOGGER.info(buildMessageLog("[DEBUG]: " + message), args);
     }
 
     public static void warn(String message, Object ... args) {
